@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>node server uploadfile</title>
+</head>
+<style>
+    h1 {
+    text-align: center;
+    margin: 35px auto;
+  }
+
+  form {
+    width: 60%;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  label {
+    width: 100%;
+    display: block;
+    margin: 17px 0px;
+    text-align: center;
+  }
+
+  input {
+    padding: 3px 0;
+  }
+
+  button {
+    background: none;
+    border: 1px solid #90d937;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+</style>
+
+<body>
+    <h1>添加学生GET/POST</h1>
+    <form onsubmit="return false">
+
+        <label for="file">
+            导入excel(.xlsx、.csvs格式)
+            <input type="file" name="file" id="file" multiple />
+        </label>
+        <label for="">
+            导出操作之后的文件
+            <input onclick="loadexcel()" type="button" value="导出处理后的文档">
+        </label>
+        <button type='submit' onclick="postsub()">添加(post方法)</button>
+    </form>
+</body>
+<script>
+    // 多文件上传
+    function postsub() {
+        if (checkform()) {
+            var data = {
+                file: document.getElementById('file').files
+            }
+            const formdata = new FormData();
+            //插入多个文件
+            const len = data.file.length;
+            for (var i = 0; i < len; i++) {
+                formdata.append(data.file[i].name, data.file[i]);
+            }
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('POST', '/upload', true);
+            //设置为文件表单上传
+            xmlhttp.setRequestHeader('enctype', 'multipart/form-data');
+            xmlhttp.onreadystatechange = function () {
+                _reshandle(xmlhttp);
+            }
+            xmlhttp.send(formdata);
+        }
+    }
+    /*
+    *导出分析之后的excel
+    */
+    function loadexcel() {
+            window.open("/exportexcel")
+    }
+
+    function checkform() {
+        var msg = '';
+        if (document.getElementById('file').files.length < 1) {
+            msg += '请选择需要上传的excel表格！';
+        }
+        if (msg.length > 0) {
+            alert(msg);
+            return false;
+        }
+        return true;
+    }
+
+    function _reshandle(xmlhttp) {
+        if (xmlhttp.readyState == 4) {
+            const resdata = JSON.parse(xmlhttp.responseText);
+            if (resdata.RTNCOD === 'SUC0000') {
+                alert('学生添加成功！');
+            } else {
+                alert(resdata.MSG);
+            }
+        }
+    }
+</script>
+
+</html>

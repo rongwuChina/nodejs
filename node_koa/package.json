@@ -1,0 +1,32 @@
+{
+  "name": "node_koa",
+  "version": "1.0.0",
+  "description": "使用nodejs加koa搭建后端服务器以及vue搭建前端页面；使用wwebpack工程化项目代码",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "app": "node project/app.js",
+    "appdev": "nodemon project/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://www.github.com/rongwuChina"
+  },
+  "keywords": [
+    "nodejs;koa;vue;webpack"
+  ],
+  "author": "rong",
+  "license": "ISC",
+  "dependencies": {
+    "csv": "^5.1.1",
+    "ejs": "^2.6.1",
+    "excel-export": "^0.5.1",
+    "gbk-dict": "^0.0.1",
+    "koa": "^2.7.0",
+    "koa-body": "^4.0.7",
+    "koa-router": "^7.4.0",
+    "node-xlsx": "^0.14.1",
+    "vue": "^2.5.22",
+    "webpack": "^4.29.0"
+  }
+}
