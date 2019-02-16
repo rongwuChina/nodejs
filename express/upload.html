@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>node server uploadfile</title>
+</head>
+<style>
+  h1 {
+    text-align: center;
+    margin: 35px auto;
+  }
+
+  form {
+    width: 60%;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  label {
+    width: 100%;
+    display: block;
+    margin: 17px 0px;
+    text-align: center;
+  }
+
+  input {
+    padding: 3px 0;
+  }
+
+  button {
+    background: none;
+    border: 1px solid #90d937;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+</style>
+
+<body>
+  <h1>添加学生GET/POST</h1>
+  <form onsubmit="return false">
+    <label for="name">
+      姓名：
+      <input name='name' required type="text" />
+    </label>
+    <label for="sex">
+      性别：
+      <input type="radio" name="sex" value="女" required> 女
+      <input type="radio" name="sex" value="男" required> 男
+    </label>
+    <label for="age">
+      年龄：
+      <input name='age' type="number" required />
+    </label>
+    <label for="file">
+      <input type="file" name="file" id="file" multiple />
+    </label>
+    <button type='submit' onclick="postsub()">添加(post方法)</button>
+  </form>
+</body>
+<script>
+  // 多文件上传
+  function postsub() {
+    if (checkform()) {
+      var data = {
+        name: document.getElementsByName('name')[0].value,
+        sex: _getsex(),
+        age: document.getElementsByName('age')[0].value,
+        file: document.getElementById('file').files
+      }
+      const formdata = new FormData();
+      formdata.append('name', data.name);
+      formdata.append('sex', data.sex);
+      formdata.append('age', data.age);
+      //插入多个文件
+      const len = data.file.length;
+      for (var i = 0; i < len; i++) {
+        formdata.append(data.file[i].name, data.file[i]);
+      }
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('POST', '/upload', true);
+      //设置为文件表单上传
+      xmlhttp.setRequestHeader('enctype', 'multipart/form-data');
+      xmlhttp.onreadystatechange = function () {
+        _reshandle(xmlhttp);
+      }
+
+      xmlhttp.send(formdata);
+    }
+  }
+
+  function checkform() {
+    var data = {
+      name: document.getElementsByName('name')[0].value,
+      sex: _getsex(),
+      age: document.getElementsByName('age')[0].value
+    }
+    let msg = '';
+    data.name.length < 1 ? msg += '请输入名称\r\n' : null;
+    data.sex.length < 1 ? msg += '请输入性别\r\n' : null;
+    data.age.length < 1 ? msg += '请输入年龄\r\n' : null;
+    if (msg.length > 0) {
+      alert(msg);
+      return false;
+    }
+    return true;
+  }
+
+  function _getsex() {
+    const sexlen = document.getElementsByName('sex').length;
+    for (var i = 0; i < sexlen; i++) {
+      if (document.getElementsByName('sex')[i].checked) {
+        return document.getElementsByName('sex')[i].value
+      }
+    }
+    return '';
+  }
+
+  function _reshandle(xmlhttp) {
+    if (xmlhttp.readyState == 4) {
+      const resdata = JSON.parse(xmlhttp.responseText);
+      if (resdata.RTNCOD === 'SUC0000') {
+        alert('学生添加成功！');
+      } else {
+        alert(resdata.MSG);
+      }
+    }
+  }
+</script>
+
+</html>
