@@ -2,8 +2,9 @@ const xlsx = require('node-xlsx');
 const fs = require("fs");
 const csv = require('csv');
 const path = require('path');
-const conf = require('./constant/config');
+const conf = require('../constant/config');
 const nodeExcel = require('excel-export');
+
 
 //导入excel文件
 async function upload(ctx) {
@@ -112,7 +113,7 @@ async function caculate(v) {
 }
 function write(conf, data) {
     return new Promise((resolve, reject) => {
-        fs.writeFile(path.join(__dirname, 'upload/') + conf.name, data, (err) => {
+        fs.writeFile(path.join(__dirname, "../", 'upload/') + conf.name, data, (err) => {
             if (err) {
                 reject({ RTNCOD: 'ERR0000', MSG: '上传失败，请重新上传！' });
             } else {
@@ -125,10 +126,11 @@ function write(conf, data) {
 //导出制定文件夹中的文件
 async function exportexcel(ctx) {
     //导出
-    const files = getallfiles(path.join(__dirname, 'upload'));
-    data = fs.readFileSync(path.join(__dirname, 'upload/') + files[0]);
+    const files = getallfiles(path.join(__dirname, "../", 'upload'));
+    data = fs.readFileSync(path.join(__dirname, "../", 'upload/') + files[0]);
     ctx.set('Content-Type', 'application/vnd.openxmlformats');
-    ctx.set("Content-Disposition", "attachment; filename=" + `${conf.name}.xlsx`);
+    const filename = encodeURI(conf.name);
+    ctx.set("Content-Disposition", "attachment; filename=" + `${filename}.xlsx`);
     ctx.body = data;
 
 }
