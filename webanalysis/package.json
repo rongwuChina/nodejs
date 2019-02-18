@@ -1,0 +1,17 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "node firstnode.js运行即可，访问地址：IP:8989",
+  "main": "firstnode.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "web": "node webanalysis/app.js",
+    "webdev": "nodemon webanalysis/server/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^1.18.10",
+    "router": "^1.3.3"
+  }
+}
