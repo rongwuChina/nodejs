@@ -8,7 +8,7 @@ const router = require("koa-router")();
 const mongoo = require('./constant/mongodb').mongoURI;
 mongoose.connect(mongoo)
     .then(() => console.log('mongodb connected'))
-    .catch((err) => console.log(err));
+    .catch((err) => console.log('mongodb unconnected:' + err));
 
 //const ejs = require('ejs');
 //设置中间件

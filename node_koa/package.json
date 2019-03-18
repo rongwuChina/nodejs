@@ -27,6 +27,8 @@
     "koa-router": "^7.4.0",
     "mongoose": "^5.4.13",
     "node-xlsx": "^0.14.1",
+    "nodemon": "^1.18.10",
+    "request": "^2.88.0",
     "vue": "^2.5.22",
     "webpack": "^4.29.0"
   }

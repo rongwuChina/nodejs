@@ -10,6 +10,15 @@
     params.sw = window.screen.width || '';
     params.sh = window.screen.height || '';
     params.cd = window.screen.colorDepth || '';
+    window.performance = window.performance || '';
+    //计算页面加载时间 performance.timing
+    params.dnstim = domainLookupEnd - domainLookupStart;// DNS查询耗时
+    params.tcptim = connectEnd - connectStart;// TCP链接耗时
+    params.reqtim = responseEnd - responseStart;// request请求耗时
+    params.domtim = domComplete - domInteractive;// 解析dom树耗时
+    params.winwhite = domloadng - fetchStart; // 白屏时间
+    params.readytim = domContentLoadedEventEnd - fetchStart;// domready时间
+    params.loadtim = loadEventEnd - fetchStart;// onload时间 
   }
   if (navigator) {
     params.lang = navigator.language;
